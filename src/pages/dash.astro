@@ -1,0 +1,9 @@
+---
+// dash.gavinf.com — signed-in only, so the whole panel is a client island
+// rather than static markup that would flash before the redirect.
+import Base from '../layouts/Base.astro';
+import DashboardPanel from '../islands/DashboardPanel.tsx';
+---
+<Base title="Dashboard">
+  <DashboardPanel client:only="react" />
+</Base>

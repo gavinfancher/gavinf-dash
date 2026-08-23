@@ -1,5 +1,5 @@
-import { useEffect, type ReactNode } from 'react'
-import { UserButton } from '@clerk/react'
+import { type ReactNode } from 'react'
+import { ClerkProvider, ClerkLoading, ClerkLoaded, Show, RedirectToSignIn, UserButton } from '@clerk/react'
 import { IconCloud, IconCloudMark, IconDocs, IconHypervisor } from '../Icons'
 
 type Service = {
@@ -38,8 +38,25 @@ const SERVICES: Service[] = [
   },
 ]
 
-export function Dashboard() {
-  useEffect(() => { document.title = 'Dashboard' }, [])
+const PUBLISHABLE_KEY = import.meta.env.PUBLIC_CLERK_PUBLISHABLE_KEY
+
+// Island for dash.gavinf.com. The whole panel is gated, so unlike the landing
+// page it cannot be static — signed-out visitors must never see the grid.
+export default function DashboardPanel() {
+  return (
+    <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
+      <ClerkLoading>
+        <div className="dash-content"><p className="muted">Loading…</p></div>
+      </ClerkLoading>
+      <ClerkLoaded>
+        <Show when="signed-in"><Dashboard /></Show>
+        <Show when="signed-out"><RedirectToSignIn /></Show>
+      </ClerkLoaded>
+    </ClerkProvider>
+  )
+}
+
+function Dashboard() {
   return (
     <div className="dash-shell">
       <header className="dash-header">

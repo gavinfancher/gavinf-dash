@@ -11,6 +11,14 @@
 
 const PROXMOX_HOST = "proxmox.gavinf.com";
 
+// Each portal host serves a different prerendered Astro page. The SPA used to
+// switch views client-side off window.location.hostname; now the split happens
+// here, so gavinf.com can be a static page that ships no JavaScript.
+const HOST_PAGE = {
+  "auth.gavinf.com": "/auth/",
+  "dash.gavinf.com": "/dash/",
+};
+
 const PROXMOX_SHELL = `<!doctype html>
 <html>
 <head>
@@ -137,11 +145,18 @@ export default {
       return fetch(request);
     }
 
-    // Portal SPA. Assets sit at the bundle root now that this Worker serves
-    // one app instead of three, so no path prefix — just an SPA fallback.
-    let resp = await env.ASSETS.fetch(request);
+    // Portal. Only the bare host path is rewritten to that host's page —
+    // /_astro/* and other asset requests resolve by their own path.
+    const page = HOST_PAGE[url.hostname] ?? "/";
+    const assetUrl = new URL(url);
+    if (url.pathname === "/" || url.pathname === "") {
+      assetUrl.pathname = page;
+    }
+
+    let resp = await env.ASSETS.fetch(new Request(assetUrl, request));
     if (resp.status === 404) {
-      resp = await env.ASSETS.fetch(new Request(new URL("/", url), request));
+      assetUrl.pathname = page;
+      resp = await env.ASSETS.fetch(new Request(assetUrl, request));
     }
     return resp;
   },

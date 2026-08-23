@@ -1,0 +1,1 @@
+{"root":["./astro.config.mjs","./worker.js","./src/icons.tsx","./src/islands/dashboardpanel.tsx","./src/islands/signinpanel.tsx"],"errors":true,"version":"6.0.3"}

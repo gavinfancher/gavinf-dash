@@ -1,11 +1,21 @@
-import { SignIn, Show } from '@clerk/react'
+import { ClerkProvider, ClerkLoading, ClerkLoaded, SignIn, Show } from '@clerk/react'
 import { useEffect } from 'react'
 import { IconCloudMark } from '../Icons'
 
-export function Portal() {
-  useEffect(() => { document.title = 'Sign in' }, [])
+const PUBLISHABLE_KEY = import.meta.env.PUBLIC_CLERK_PUBLISHABLE_KEY
+
+// Island for auth.gavinf.com. The page chrome around it is static Astro; only
+// the Clerk widget needs React, so it mounts client:only.
+export default function SignInPanel() {
   return (
-    <>
+    <ClerkProvider
+      publishableKey={PUBLISHABLE_KEY}
+      localization={{ signIn: { start: { title: 'Sign in' } } }}
+    >
+      <ClerkLoading>
+        <div className="portal-main"><p className="muted">Loading…</p></div>
+      </ClerkLoading>
+      <ClerkLoaded>
       <Show when="signed-out">
         <div className="land-shell">
           <header className="land-header">
@@ -22,10 +32,11 @@ export function Portal() {
           </main>
         </div>
       </Show>
-      <Show when="signed-in">
-        <RedirectToDash />
-      </Show>
-    </>
+        <Show when="signed-in">
+          <RedirectToDash />
+        </Show>
+      </ClerkLoaded>
+    </ClerkProvider>
   )
 }
 

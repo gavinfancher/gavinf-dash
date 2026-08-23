@@ -1,0 +1,33 @@
+---
+// gavinf.com — fully static. This page has no interactive state, so it ships
+// no JavaScript at all; Clerk only loads on /auth and /dash.
+import Base from '../layouts/Base.astro';
+---
+<Base title="gavinf.com">
+  <div class="land-shell">
+    <header class="land-header">
+      <div class="land-logo-mark">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M17.5 19a4.5 4.5 0 0 0 .5-8.97A6 6 0 0 0 6.34 9.5 4 4 0 0 0 7 19z"
+            stroke="#3b82f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <a class="btn-login" href="https://auth.gavinf.com">Login</a>
+    </header>
+
+    <main class="land-hero">
+      <div class="land-hero-content">
+        <h1 class="land-title">Personal Cloud Infrastructure</h1>
+        <p class="land-desc">
+          My portal for managing self-hosted infrastructure,<br />
+          VM instances, and other services.
+        </p>
+        <div class="land-footer-row">
+          <span class="land-about-label">More about me</span>
+          <a class="land-about-btn" href="https://gavinfancher.com"
+             target="_blank" rel="noopener noreferrer">gavinfancher.com</a>
+        </div>
+      </div>
+    </main>
+  </div>
+</Base>
