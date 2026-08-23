@@ -1,4 +1,4 @@
-# gavinf
+# gavinf-dash
 
 The personal sites on `gavinf.com` — landing page, Clerk auth portal, and
 dashboard — plus the shell that wraps the Proxmox UI. One React SPA and one
