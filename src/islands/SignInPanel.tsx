@@ -1,6 +1,7 @@
 import { ClerkProvider, ClerkLoading, ClerkLoaded, SignIn, Show } from '@clerk/react'
 import { useEffect } from 'react'
 import { IconCloudMark } from '../Icons'
+import { clerkAppearance } from '../clerkAppearance'
 
 const PUBLISHABLE_KEY = import.meta.env.PUBLIC_CLERK_PUBLISHABLE_KEY
 
@@ -10,6 +11,7 @@ export default function SignInPanel() {
   return (
     <ClerkProvider
       publishableKey={PUBLISHABLE_KEY}
+      appearance={clerkAppearance}
       localization={{ signIn: { start: { title: 'Sign in' } } }}
     >
       <ClerkLoading>

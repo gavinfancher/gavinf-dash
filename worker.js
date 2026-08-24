@@ -26,11 +26,11 @@ const PROXMOX_SHELL = `<!doctype html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>proxmox - Proxmox Virtual Environment</title>
 <style>
-  html, body { margin: 0; height: 100%; background: #0a0d12; }
+  html, body { margin: 0; height: 100%; background: #0b0f0e; }
   .portal-rail {
     position: fixed; top: 0; left: 0; bottom: 0; z-index: 1000;
     width: 56px; overflow: hidden;
-    background: #0e131a; border-right: 1px solid #232c39;
+    background: #0f1614; border-right: 1px solid #253431;
     display: flex; flex-direction: column; gap: 2px;
     padding: 10px 11px; box-sizing: border-box;
     transition: width 0.16s ease;
@@ -40,19 +40,19 @@ const PROXMOX_SHELL = `<!doctype html>
   .portal-rail-item {
     display: flex; align-items: center; gap: 12px; flex-shrink: 0;
     height: 38px; padding: 0 2px; border-radius: 7px;
-    color: #8d99a8; text-decoration: none; white-space: nowrap;
+    color: #8fa49a; text-decoration: none; white-space: nowrap;
     font-size: 13.5px; font-weight: 600;
   }
-  .portal-rail-item:hover, .portal-rail-item.active { background: #131a23; color: #e7edf4; }
+  .portal-rail-item:hover, .portal-rail-item.active { background: #141c19; color: #e6efe9; }
   .portal-rail-icon {
     width: 30px; height: 30px; flex-shrink: 0;
     display: flex; align-items: center; justify-content: center;
   }
-  .portal-rail-mark { background: #16263f; border-radius: 7px; }
-  .portal-rail-brand { height: 42px; color: #e7edf4; font-size: 15px; margin-bottom: 6px; }
+  .portal-rail-mark { background: #0f2a20; border-radius: 7px; }
+  .portal-rail-brand { height: 42px; color: #e6efe9; font-size: 15px; margin-bottom: 6px; }
   .portal-rail-label { opacity: 0; transition: opacity 0.12s ease; }
   .portal-rail.open .portal-rail-label { opacity: 1; }
-  .portal-rail-sep { height: 1px; flex-shrink: 0; background: #232c39; margin: 4px 2px 8px; }
+  .portal-rail-sep { height: 1px; flex-shrink: 0; background: #253431; margin: 4px 2px 8px; }
   .portal-rail-spacer { flex: 1; }
   .portal-rail-toggle { background: none; border: 0; cursor: pointer; font: inherit; width: 100%; text-align: left; }
   iframe { display: block; margin-left: 56px; width: calc(100vw - 56px); height: 100vh; border: 0; transition: margin-left 0.16s ease, width 0.16s ease; }
@@ -65,7 +65,7 @@ const PROXMOX_SHELL = `<!doctype html>
     <span class="portal-rail-icon portal-rail-mark">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
         <path d="M17.5 19a4.5 4.5 0 0 0 .5-8.97A6 6 0 0 0 6.34 9.5 4 4 0 0 0 7 19z"
-          stroke="#3b82f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+          stroke="#3fd79a" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </span>
     <span class="portal-rail-label">Dashboard</span>

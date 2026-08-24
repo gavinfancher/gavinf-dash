@@ -5,7 +5,7 @@ export function IconCloudMark({ size = 18 }: { size?: number }) {
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
       <path
         d="M17.5 19a4.5 4.5 0 0 0 .5-8.97A6 6 0 0 0 6.34 9.5 4 4 0 0 0 7 19z"
-        stroke="#3b82f6"
+        stroke="#3fd79a"
         strokeWidth="1.75"
         strokeLinecap="round"
         strokeLinejoin="round"
