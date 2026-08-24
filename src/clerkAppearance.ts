@@ -8,19 +8,19 @@ import { dark } from '@clerk/themes'
 export const clerkAppearance = {
   baseTheme: dark,
   variables: {
-    colorBackground: '#141c19',
-    colorForeground: '#e6efe9',
-    colorMutedForeground: '#8fa49a',
-    colorNeutral: '#e6efe9',
-    colorInput: '#0f1614',
-    colorInputForeground: '#e6efe9',
+    colorBackground: '#161616',
+    colorForeground: '#ededed',
+    colorMutedForeground: '#a1a1a1',
+    colorNeutral: '#ededed',
+    colorInput: '#121212',
+    colorInputForeground: '#ededed',
     colorPrimary: '#3fd79a',
     // The mint is bright enough that Clerk's default white label on it sits at
     // ~1.9:1. Ink on mint instead.
     colorPrimaryForeground: '#06130e',
     colorDanger: '#e8595c',
     colorRing: '#3fd79a',
-    borderRadius: '7px',
+    borderRadius: '2px',
     fontFamily: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif',
   },
 }
