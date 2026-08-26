@@ -1,6 +1,6 @@
 import { type ReactNode } from 'react'
 import { ClerkProvider, ClerkLoading, ClerkLoaded, Show, RedirectToSignIn, UserButton } from '@clerk/react'
-import { IconCloud, IconCloudMark, IconDocs, IconHypervisor } from '../Icons'
+import { IconCloud, IconCloudMark, IconDocs, IconHypervisor, IconNetwork } from '../Icons'
 import { clerkAppearance } from '../clerkAppearance'
 
 type Service = {
@@ -11,6 +11,12 @@ type Service = {
   icon: ReactNode
   live: boolean
 }
+
+// The UniFi console link. The site-specific deep link carries the console id,
+// and this repo is public, so it lives in an untracked .env.local instead of
+// here; without it the card falls back to the console picker, which is one
+// extra click for the same place.
+const UNIFI_URL = import.meta.env.PUBLIC_UNIFI_URL || 'https://unifi.ui.com'
 
 const SERVICES: Service[] = [
   {
@@ -27,6 +33,14 @@ const SERVICES: Service[] = [
     desc: 'Proxmox hypervisor, VMs & cluster management',
     href: 'https://proxmox.gavinf.com',
     icon: <IconHypervisor />,
+    live: true,
+  },
+  {
+    id: 'unifi',
+    name: 'unifi',
+    desc: 'UniFi console — network, clients & access points',
+    href: UNIFI_URL,
+    icon: <IconNetwork />,
     live: true,
   },
   {

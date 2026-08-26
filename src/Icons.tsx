@@ -49,6 +49,19 @@ export function IconHypervisor({ size = 20, width, height }: IconProps) {
   )
 }
 
+export function IconNetwork({ size = 20, width, height }: IconProps) {
+  const w = width ?? size
+  const h = height ?? size
+  return (
+    <svg width={w} height={h} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4.5 9a10.5 10.5 0 0 1 15 0" />
+      <path d="M7.8 12.4a6 6 0 0 1 8.4 0" />
+      <path d="M11 15.9a1.5 1.5 0 0 1 2 0" />
+      <path d="M12 19.5h.01" />
+    </svg>
+  )
+}
+
 export function IconDocs({ size = 20, width, height }: IconProps) {
   const w = width ?? size
   const h = height ?? size
