@@ -1,8 +1,7 @@
 // gavinf-dash: one Worker for the personal sites on gavinf.com.
 //   proxmox.gavinf.com → portal-rail shell for navigations, passthrough
-//   unifi.gavinf.com   → the same, wrapped around the UniFi console
-//                        (XHR, assets, WebSocket consoles) pass through to the
-//                        tunnel origin
+//                        (XHR, assets, WebSocket consoles) to the tunnel origin
+//   unifi.gavinf.com   → redirect to the UniFi cloud console
 //   everything else    → the portal pages, one per hostname
 //
 // homecloud.gavinf.com and docs.gavinf.com are separate Workers in their own
@@ -12,11 +11,20 @@
 
 // Hosts served as a rail shell wrapped around an iframed origin. Both the
 // shell and the frame live on the same hostname, so an origin that sets
-// X-Frame-Options: SAMEORIGIN (Proxmox and UniFi both do) still renders.
+// X-Frame-Options: SAMEORIGIN (Proxmox does) still renders.
 const SHELL_HOSTS = {
   "proxmox.gavinf.com": { id: "proxmox", title: "proxmox — Proxmox Virtual Environment", frame: "Proxmox VE" },
-  "unifi.gavinf.com": { id: "unifi", title: "unifi — UniFi Network", frame: "UniFi Network" },
 };
+
+// unifi.gavinf.com is a vanity redirect, not a shell: the console lives in
+// Ubiquiti's cloud, which refuses to be framed (X-Frame-Options) and holds its
+// session cookies on ui.com, so neither embedding nor proxying it can work.
+// The destination carries the console id and this repo is public, so it comes
+// from a Worker secret — set it with:
+//   npx wrangler secret put UNIFI_CONSOLE_URL
+// Unset, the redirect lands on the console picker instead.
+const UNIFI_HOST = "unifi.gavinf.com";
+const UNIFI_FALLBACK = "https://unifi.ui.com";
 
 // Each portal host serves a different prerendered Astro page. The SPA used to
 // switch views client-side off window.location.hostname; now the split happens
@@ -153,6 +161,10 @@ ${RAIL_ITEMS.map((item) => railItem(item, id)).join("\n")}
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+
+    if (url.hostname === UNIFI_HOST) {
+      return Response.redirect(env.UNIFI_CONSOLE_URL || UNIFI_FALLBACK, 302);
+    }
 
     const shellHost = SHELL_HOSTS[url.hostname];
     if (shellHost) {
