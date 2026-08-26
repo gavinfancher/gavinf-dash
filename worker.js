@@ -19,12 +19,11 @@ const SHELL_HOSTS = {
 // unifi.gavinf.com is a vanity redirect, not a shell: the console lives in
 // Ubiquiti's cloud, which refuses to be framed (X-Frame-Options) and holds its
 // session cookies on ui.com, so neither embedding nor proxying it can work.
-// The destination carries the console id and this repo is public, so it comes
-// from a Worker secret — set it with:
-//   npx wrangler secret put UNIFI_CONSOLE_URL
-// Unset, the redirect lands on the console picker instead.
+// The console id below identifies the hardware but grants nothing — reaching
+// the console still takes a Ubiquiti login.
 const UNIFI_HOST = "unifi.gavinf.com";
-const UNIFI_FALLBACK = "https://unifi.ui.com";
+const UNIFI_CONSOLE_URL =
+  "https://unifi.ui.com/consoles/1C0B8B48F3EA00000000090D747100000000098967E3000000006818978D:2017168579/network/default/dashboard";
 
 // Each portal host serves a different prerendered Astro page. The SPA used to
 // switch views client-side off window.location.hostname; now the split happens
@@ -163,7 +162,7 @@ export default {
     const url = new URL(request.url);
 
     if (url.hostname === UNIFI_HOST) {
-      return Response.redirect(env.UNIFI_CONSOLE_URL || UNIFI_FALLBACK, 302);
+      return Response.redirect(UNIFI_CONSOLE_URL, 302);
     }
 
     const shellHost = SHELL_HOSTS[url.hostname];
