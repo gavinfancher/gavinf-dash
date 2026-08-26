@@ -8,9 +8,25 @@
     "run_worker_first": true
   },
   "routes": [
-    { "pattern": "gavinf.com", "custom_domain": true },
-    { "pattern": "auth.gavinf.com", "custom_domain": true },
-    { "pattern": "dash.gavinf.com", "custom_domain": true },
-    { "pattern": "proxmox.gavinf.com/*", "zone_name": "gavinf.com" }
+    {
+      "pattern": "gavinf.com",
+      "custom_domain": true
+    },
+    {
+      "pattern": "auth.gavinf.com",
+      "custom_domain": true
+    },
+    {
+      "pattern": "dash.gavinf.com",
+      "custom_domain": true
+    },
+    {
+      "pattern": "proxmox.gavinf.com/*",
+      "zone_name": "gavinf.com"
+    },
+    {
+      "pattern": "unifi.gavinf.com/*",
+      "zone_name": "gavinf.com"
+    }
   ]
 }
