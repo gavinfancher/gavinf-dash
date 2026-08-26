@@ -1,6 +1,6 @@
 import { type ReactNode } from 'react'
 import { ClerkProvider, ClerkLoading, ClerkLoaded, Show, RedirectToSignIn, UserButton } from '@clerk/react'
-import { IconCloud, IconCloudMark, IconDocs, IconHypervisor, IconNetwork } from '../Icons'
+import { IconCloud, IconCloudMark, IconDocs, IconEthernet, IconHypervisor } from '../Icons'
 import { clerkAppearance } from '../clerkAppearance'
 
 type Service = {
@@ -40,7 +40,7 @@ const SERVICES: Service[] = [
     name: 'unifi',
     desc: 'UniFi console — network, clients & access points',
     href: UNIFI_URL,
-    icon: <IconNetwork />,
+    icon: <IconEthernet />,
     live: true,
   },
   {
