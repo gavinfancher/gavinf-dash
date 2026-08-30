@@ -93,15 +93,18 @@ body {
   background: color-mix(in srgb, var(--accent) 18%, transparent);
 }
 
-/* The document itself. Mono is doing signalling work here — it is on the
-   things that name infrastructure (hosts, stack, hops) and nowhere else. */
+/* The document itself. It sits a little above centre and fits one screen —
+   the destinations are the point, so nothing should push them below the fold. */
 
 .land-doc {
   width: 100%;
-  max-width: 720px;
+  max-width: 620px;
   margin: 0 auto;
-  padding: 64px 28px 96px;
+  padding: 0 28px;
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .land-eyebrow {
@@ -122,214 +125,97 @@ body {
 }
 
 .land-lead {
-  margin: 0 0 20px;
+  margin: 0 0 22px;
   font-size: 17px;
   color: var(--text);
 }
 
 .land-body {
-  margin: 0;
+  margin: 0 0 36px;
   font-size: 14.5px;
   line-height: 1.7;
   color: var(--muted);
-  max-width: 62ch;
+  max-width: 58ch;
 }
 
-.land-section {
-  margin-top: 44px;
-  padding-top: 32px;
-  border-top: 1px solid var(--border);
-}
+/* Destinations — the same card language as the dashboard's service grid, so
+   the two pages read as one system. */
 
-.land-section-label {
-  margin: 0 0 20px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: var(--faint);
-}
-
-/* What runs here */
-
-.land-list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 22px;
-}
-
-.land-row-head {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 5px;
-}
-
-.land-row-name {
-  font-family: var(--mono);
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text);
-  text-decoration: none;
-}
-
-.land-row-link {
-  color: var(--accent);
-}
-
-.land-row-link:hover {
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-.land-tag {
-  font-family: var(--mono);
-  font-size: 10.5px;
-  letter-spacing: 0.03em;
-  color: var(--faint);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 1px 6px;
-}
-
-.land-tag-open {
-  color: var(--ok);
-  border-color: color-mix(in srgb, var(--ok) 35%, transparent);
-}
-
-.land-row-desc {
-  margin: 0;
-  font-size: 14px;
-  line-height: 1.6;
-  color: var(--muted);
-  max-width: 62ch;
-}
-
-/* Request path */
-
-.land-path {
-  margin: 24px 0 32px;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px 4px;
-}
-
-.land-path-step {
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--text);
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 4px 9px;
-}
-
-.land-path-step:not(:last-child)::after {
-  content: '→';
-  color: var(--faint);
-  margin-left: 13px;
-  margin-right: -4px;
-}
-
-/* Stack */
-
-.land-stack {
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.land-stack-group {
+.land-dests {
   display: grid;
-  grid-template-columns: 150px 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 12px;
-  align-items: baseline;
 }
 
-.land-stack-label {
-  font-size: 12.5px;
-  color: var(--faint);
-}
-
-.land-stack-items {
-  margin: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.land-chip {
-  font-family: var(--mono);
-  font-size: 11.5px;
-  color: var(--muted);
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 3px 8px;
-}
-
-/* Elsewhere */
-
-.land-links {
-  margin: 0;
-  padding: 0;
-  list-style: none;
+.land-dest {
   display: flex;
   flex-direction: column;
-}
-
-.land-link {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 13px 2px;
-  border-bottom: 1px solid var(--border);
+  gap: 4px;
+  padding: 16px 18px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
   text-decoration: none;
-  transition: border-color 0.12s;
+  transition:
+    background 0.12s,
+    border-color 0.12s;
 }
 
-.land-link:hover {
+.land-dest:hover {
+  background: var(--panel-2);
   border-color: var(--accent);
 }
 
-.land-link:hover .land-link-label {
-  color: var(--accent);
-}
-
-.land-link-label {
+.land-dest-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-size: 14.5px;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text);
   transition: color 0.12s;
 }
 
-.land-link-note {
+.land-dest:hover .land-dest-label {
+  color: var(--accent);
+}
+
+.land-dest-arrow {
+  flex-shrink: 0;
+  color: var(--faint);
+  transition:
+    color 0.12s,
+    transform 0.12s;
+}
+
+.land-dest:hover .land-dest-arrow {
+  color: var(--accent);
+  transform: translate(1px, -1px);
+}
+
+.land-dest-note {
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: 11.5px;
+  color: var(--faint);
+}
+
+.land-colophon {
+  margin: 36px 0 0;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  line-height: 1.7;
   color: var(--faint);
 }
 
 @media (max-width: 560px) {
   .land-doc {
-    padding: 40px 20px 64px;
+    justify-content: flex-start;
+    padding: 44px 20px 56px;
   }
 
   .land-title {
     font-size: 28px;
     letter-spacing: -0.6px;
-  }
-
-  .land-stack-group {
-    grid-template-columns: 1fr;
-    gap: 6px;
   }
 }
 
