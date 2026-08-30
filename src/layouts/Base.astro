@@ -11,6 +11,12 @@ const { title, description = 'Personal cloud infrastructure portal.' } = Astro.p
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <!-- The landing page gets shared as a link more than it gets browsed to,
+         so give the unfurl the same title and blurb as the page. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta name="twitter:card" content="summary" />
   </head>
   <body>
     <slot />

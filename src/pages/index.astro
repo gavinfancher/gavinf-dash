@@ -1,9 +1,55 @@
 ---
 // gavinf.com — fully static. This page has no interactive state, so it ships
 // no JavaScript at all; Clerk only loads on /auth and /dash.
+//
+// Everything here is drawn from the repos it describes. If the stack changes,
+// change it here too — a landing page that lies about the infrastructure is
+// worse than one that says nothing.
 import Base from '../layouts/Base.astro';
+
+// Reachability is the honest distinction to draw for a visitor: docs is open,
+// the consoles are behind SSO. Linking a stranger into a login wall is worse
+// than telling them it exists.
+const SERVICES = [
+  {
+    name: 'homecloud',
+    desc: 'Control plane that provisions VMs on the hypervisor from one API call, joins them to a private WireGuard mesh, and publishes their services through the edge.',
+    tag: 'sign-in',
+    href: null,
+  },
+  {
+    name: 'proxmox',
+    desc: 'The hypervisor console itself, framed under a vanity host so the session cookie stays on this domain.',
+    tag: 'sign-in',
+    href: null,
+  },
+  {
+    name: 'docs',
+    desc: 'Working notes on the Cloudflare, Proxmox, and AWS plumbing underneath all of it — what an API actually returns, and which failure modes are silent.',
+    tag: 'open',
+    href: 'https://docs.gavinf.com',
+  },
+];
+
+const STACK = [
+  { label: 'Hardware & compute', items: ['Proxmox VE', 'Docker Compose', 'Linux'] },
+  { label: 'Network', items: ['Cloudflare Tunnel', 'Tailscale', 'CoreDNS', 'Caddy'] },
+  { label: 'Edge & auth', items: ['Cloudflare Workers', 'Clerk SSO'] },
+  { label: 'Services', items: ['FastAPI', 'Python', 'Astro', 'React'] },
+];
+
+const PATH = ['browser', 'Workers', 'Tunnel', 'Caddy', 'control node', 'Proxmox API'];
+
+const LINKS = [
+  { label: 'gavinfancher.com', href: 'https://gavinfancher.com', note: 'projects & writing' },
+  { label: 'GitHub', href: 'https://github.com/gavinfancher', note: '@gavinfancher' },
+  { label: 'LinkedIn', href: 'https://linkedin.com/in/gavinfancher', note: 'in/gavinfancher' },
+];
 ---
-<Base title="gavinf.com">
+<Base
+  title="Gavin Fancher — data systems & infrastructure"
+  description="gavinf.com is the control plane for a self-hosted mini-cloud: VM provisioning, private mesh networking, and public ingress, run on my own hardware."
+>
   <div class="land-shell">
     <header class="land-header">
       <div class="land-logo-mark">
@@ -15,19 +61,71 @@ import Base from '../layouts/Base.astro';
       <a class="btn-login" href="https://auth.gavinf.com">Login</a>
     </header>
 
-    <main class="land-hero">
-      <div class="land-hero-content">
-        <h1 class="land-title">Personal Cloud Infrastructure</h1>
-        <p class="land-desc">
-          My portal for managing self-hosted infrastructure,<br />
-          VM instances, and other services.
+    <main class="land-doc">
+      <section class="land-intro">
+        <p class="land-eyebrow">Data systems · Data infrastructure</p>
+        <h1 class="land-title">Gavin Fancher</h1>
+        <p class="land-lead">I build data pipelines, systems, and infrastructure.</p>
+        <p class="land-body">
+          This domain isn't a portfolio — it's the control plane for a homelab I run
+          as a small cloud. Instances, images, private DNS, public ingress, and a web
+          console, all running on my own hardware. Everything listed below is live.
         </p>
-        <div class="land-footer-row">
-          <span class="land-about-label">More about me</span>
-          <a class="land-about-btn" href="https://gavinfancher.com"
-             target="_blank" rel="noopener noreferrer">gavinfancher.com</a>
-        </div>
-      </div>
+      </section>
+
+      <section class="land-section">
+        <h2 class="land-section-label">What runs here</h2>
+        <ul class="land-list">
+          {SERVICES.map((s) => (
+            <li class="land-row">
+              <div class="land-row-head">
+                {s.href
+                  ? <a class="land-row-name land-row-link" href={s.href}>{s.name}</a>
+                  : <span class="land-row-name">{s.name}</span>}
+                <span class={`land-tag ${s.tag === 'open' ? 'land-tag-open' : ''}`}>{s.tag}</span>
+              </div>
+              <p class="land-row-desc">{s.desc}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="land-section">
+        <h2 class="land-section-label">How it's built</h2>
+        <p class="land-body">
+          A request from the open internet never touches my network directly. It lands
+          on a Cloudflare Worker, crosses an outbound-only tunnel, and is routed by
+          host to a machine that accepts no inbound connections from the public
+          internet.
+        </p>
+        <ol class="land-path">
+          {PATH.map((step) => <li class="land-path-step">{step}</li>)}
+        </ol>
+        <dl class="land-stack">
+          {STACK.map((g) => (
+            <div class="land-stack-group">
+              <dt class="land-stack-label">{g.label}</dt>
+              <dd class="land-stack-items">
+                {g.items.map((i) => <span class="land-chip">{i}</span>)}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+
+      <section class="land-section">
+        <h2 class="land-section-label">Elsewhere</h2>
+        <ul class="land-links">
+          {LINKS.map((l) => (
+            <li>
+              <a class="land-link" href={l.href} target="_blank" rel="noopener noreferrer">
+                <span class="land-link-label">{l.label}</span>
+                <span class="land-link-note">{l.note}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
     </main>
   </div>
 </Base>
