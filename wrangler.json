@@ -23,10 +23,6 @@
     {
       "pattern": "proxmox.gavinf.com/*",
       "zone_name": "gavinf.com"
-    },
-    {
-      "pattern": "unifi.gavinf.com/*",
-      "zone_name": "gavinf.com"
     }
   ]
 }

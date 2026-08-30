@@ -1,7 +1,6 @@
 // gavinf-dash: one Worker for the personal sites on gavinf.com.
 //   proxmox.gavinf.com → portal-rail shell for navigations, passthrough
 //                        (XHR, assets, WebSocket consoles) to the tunnel origin
-//   unifi.gavinf.com   → redirect to the UniFi cloud console
 //   everything else    → the portal pages, one per hostname
 //
 // homecloud.gavinf.com and docs.gavinf.com are separate Workers in their own
@@ -15,15 +14,6 @@
 const SHELL_HOSTS = {
   "proxmox.gavinf.com": { id: "proxmox", title: "proxmox — Proxmox Virtual Environment", frame: "Proxmox VE" },
 };
-
-// unifi.gavinf.com is a vanity redirect, not a shell: the console lives in
-// Ubiquiti's cloud, which refuses to be framed (X-Frame-Options) and holds its
-// session cookies on ui.com, so neither embedding nor proxying it can work.
-// The console id below identifies the hardware but grants nothing — reaching
-// the console still takes a Ubiquiti login.
-const UNIFI_HOST = "unifi.gavinf.com";
-const UNIFI_CONSOLE_URL =
-  "https://unifi.ui.com/consoles/1C0B8B48F3EA00000000090D747100000000098967E3000000006818978D:2017168579/network/default/dashboard";
 
 // Each portal host serves a different prerendered Astro page. The SPA used to
 // switch views client-side off window.location.hostname; now the split happens
@@ -48,14 +38,6 @@ const RAIL_ITEMS = [
         <rect x="14" y="3" width="7" height="7" rx="1"/>
         <rect x="3" y="14" width="7" height="7" rx="1"/>
         <rect x="14" y="14" width="7" height="7" rx="1"/>`,
-  },
-  {
-    id: "unifi",
-    label: "unifi",
-    href: "https://unifi.gavinf.com",
-    icon: `<path d="M3.5 9.5a12 12 0 0 1 17 0"/>
-        <path d="M7 13a7.5 7.5 0 0 1 10 0"/>
-        <path d="M10.5 16.5a2.5 2.5 0 0 1 3 0"/>`,
   },
   {
     id: "docs",
@@ -161,10 +143,6 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
-    if (url.hostname === UNIFI_HOST) {
-      return Response.redirect(UNIFI_CONSOLE_URL, 302);
-    }
-
     const shellHost = SHELL_HOSTS[url.hostname];
     if (shellHost) {
       if (request.method === "GET" &&
@@ -174,7 +152,7 @@ export default {
         });
       }
       // DNS for these hosts points at the tunnel; pass everything else through
-      // untouched — XHR, assets, and the WebSockets both consoles rely on.
+      // untouched — XHR, assets, and the WebSockets the console relies on.
       return fetch(request);
     }
 

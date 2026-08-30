@@ -1,6 +1,6 @@
 import { type ReactNode } from 'react'
 import { ClerkProvider, ClerkLoading, ClerkLoaded, Show, RedirectToSignIn, UserButton } from '@clerk/react'
-import { IconCloud, IconCloudMark, IconDocs, IconHypervisor, IconWifi } from '../Icons'
+import { IconCloud, IconCloudMark, IconDocs, IconHypervisor } from '../Icons'
 import { clerkAppearance } from '../clerkAppearance'
 
 type Service = {
@@ -27,14 +27,6 @@ const SERVICES: Service[] = [
     desc: 'Proxmox hypervisor, VMs & cluster management',
     href: 'https://proxmox.gavinf.com',
     icon: <IconHypervisor />,
-    live: true,
-  },
-  {
-    id: 'unifi',
-    name: 'unifi',
-    desc: 'UniFi console — network, clients & access points',
-    href: 'https://unifi.gavinf.com',
-    icon: <IconWifi />,
     live: true,
   },
   {

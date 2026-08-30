@@ -49,18 +49,6 @@ export function IconHypervisor({ size = 20, width, height }: IconProps) {
   )
 }
 
-export function IconWifi({ size = 20, width, height }: IconProps) {
-  const w = width ?? size
-  const h = height ?? size
-  return (
-    <svg width={w} height={h} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M3.5 9.5a12 12 0 0 1 17 0" />
-      <path d="M7 13a7.5 7.5 0 0 1 10 0" />
-      <path d="M10.5 16.5a2.5 2.5 0 0 1 3 0" />
-    </svg>
-  )
-}
-
 export function IconDocs({ size = 20, width, height }: IconProps) {
   const w = width ?? size
   const h = height ?? size
