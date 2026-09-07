@@ -1,39 +1,22 @@
 ---
 title: "Infisical"
-description: "Secrets management for wishly and homecloud — tokens and machine identities."
+description: "Secrets management for wishly"
 sidebar:
   label: Overview
   order: 0
 ---
 
-Secrets management, pulled into `wishly/infra/infisical/` from the standalone
-`infisical-test` prototype repo.
+Using aws & infisical integration to dynamically sync infisical secrets into aws secrets manager (1 secret). 90% cheaper.
 
-## Fetching secrets
 
-```bash
-uv sync
-uv run get_secrets.py
-```
+ Create the role Infisical assumes
 
-Requires `INFISICAL_PROJECT_ID`, `INFISICAL_ENV`, and `INFISICAL_TOKEN` (a machine identity
-access token) in `.env`.
+IAM → Roles → Create role (IAM is global; no region selector to worry about)
 
-## Getting a token
-
-With a Universal Auth client ID + secret:
-
-```bash
-export INFISICAL_TOKEN=$(infisical login \
-  --method=universal-auth \
-  --client-id=YOUR_CLIENT_ID \
-  --client-secret=YOUR_CLIENT_SECRET \
-  --plain --silent)
-```
-
-Access tokens expire after a few hours — long-running apps should log in with the client
-ID/secret directly in code rather than storing a token.
-
-## See also
-
-- [Backups](/aws/backups) — the S3 backup flow this project prototyped
+1. Trusted entity type: AWS account
+2. Select Another AWS account, Account ID: 381492033652
+3. Under Options, tick Require external ID, and enter:
+8cbc2c7e-fa27-4e37-b3c9-15642fc8ca08
+4. Next. Skip the permissions page entirely — don't attach anything, we'll add an inline policy after.
+5. Role name: wishly-infisical-sync
+6. Create role
