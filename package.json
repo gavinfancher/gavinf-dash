@@ -11,7 +11,10 @@
     "build": "astro build",
     "preview": "astro preview",
     "deploy": "npm run build && wrangler deploy",
-    "sync": "astro sync"
+    "sync": "astro sync",
+    "docs:dev": "npm --prefix docs run dev",
+    "docs:build": "npm --prefix docs run build",
+    "docs:deploy": "npm --prefix docs run deploy"
   },
   "dependencies": {
     "@astrojs/react": "^6.0.4",

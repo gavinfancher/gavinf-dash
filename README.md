@@ -1,12 +1,18 @@
 # gavinf-dash
 
-The personal sites on `gavinf.com` — landing page, Clerk auth portal, and
-dashboard — plus the shell that wraps the Proxmox UI. One React SPA and one
-Cloudflare Worker, deployed as **`gavinf-dash`**.
+The personal sites on `gavinf.com` — landing page, Clerk auth portal,
+dashboard, and the docs site. Two Cloudflare Workers from one repo:
 
-Split out of the homecloud repo, where this lived under `frontend/dashboard`
-and shared a Worker with homecloud's console. They were always two independent
-apps with no shared code; now they have separate repos and separate deploys.
+| Worker | Source | Hosts |
+|---|---|---|
+| `gavinf-dash` | repo root (`src/`, `worker.js`) | `gavinf.com`, `auth`, `dash` |
+| `gavinf-docs` | `docs/` (Astro + Starlight) | `docs.gavinf.com` |
+
+`homecloud.gavinf.com` is `gavinf-homecloud`, in the `homecloud` repo.
+
+The docs were a separate `gavinf-docs` repo; they were merged in with
+`git subtree`, so their history is preserved under `docs/`. They keep their
+own `package.json` and `wrangler.json` and deploy independently.
 
 ## Hosts
 
@@ -15,44 +21,39 @@ apps with no shared code; now they have separate repos and separate deploys.
 | `gavinf.com` | landing page |
 | `auth.gavinf.com` | Clerk sign-in portal |
 | `dash.gavinf.com` | dashboard (signed-in only) |
-| `proxmox.gavinf.com` | nav-rail shell around the Proxmox VE UI |
+| `docs.gavinf.com` | docs — see `docs/README.md` |
 
-The SPA picks its view from `window.location.hostname`, so all three portal
-hosts serve one bundle. Locally, use `?view=auth` / `?view=dash` to switch.
+`worker.js` maps each portal hostname to its prerendered Astro page. Locally,
+visit `/auth/` or `/dash/` directly.
 
-`proxmox.gavinf.com` works differently: DNS points at the Cloudflare Tunnel, and
-a Worker route intercepts. Document navigations get a shell page with the nav
-rail and an iframe; everything else — XHR, assets, WebSocket consoles — passes
-straight through to the tunnel origin. The check is `Sec-Fetch-Dest: document`.
-
-## Neighbours
-
-| Worker | Repo | Host |
-|---|---|---|
-| `gavinf-dash` | this one | `gavinf.com`, `auth`, `dash`, `proxmox` |
-| `gavinf-homecloud` | `homecloud` | `homecloud.gavinf.com` |
-| `gavinf-docs` | `mydocs` | `docs.gavinf.com` |
+Proxmox is not served through Cloudflare. The dashboard card and the docs rail
+link straight to the node's Tailscale address (`https://100.106.79.65:8006`),
+so it only works from a device on the tailnet.
 
 ## Local development
 
 ```bash
 npm install
-cp .env.example .env.local   # VITE_CLERK_PUBLISHABLE_KEY
-npm run dev                  # http://localhost:5173
+cp .env.example .env.local   # PUBLIC_CLERK_PUBLISHABLE_KEY
+npm run dev                  # http://localhost:4321
+
+npm --prefix docs install
+npm run docs:dev             # http://localhost:4322
 ```
 
 ## Deploy
 
 ```bash
-npm run deploy               # build + wrangler deploy
+npm run deploy               # gavinf-dash: build + wrangler deploy
+npm run docs:deploy          # gavinf-docs
 ```
 
 Or connect the repo under Workers & Pages → gavinf-dash → Settings → Builds
-with build `npm run build`, deploy `npx wrangler deploy`, path `/`.
+with build `npm run build`, deploy `npx wrangler deploy`, path `/`. Do the same
+for gavinf-docs with path `/docs`.
 
 ## Keeping the rail in sync
 
-The nav rail exists twice: as `PROXMOX_SHELL` markup inside `worker.js`, and as
+The cross-site nav rail exists twice: `docs/src/components/Rail.astro` and
 `frontend/src/PortalRail.tsx` in the homecloud repo. They must look identical
-because a user crosses between them without a page-level cue. It's ~40 lines of
-markup that changes rarely — duplicated deliberately rather than packaged.
+because a user crosses between them without a page-level cue.

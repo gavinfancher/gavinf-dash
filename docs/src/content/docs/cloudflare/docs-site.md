@@ -94,10 +94,10 @@ Connect the repo in **Workers & Pages → gavinf-docs → Settings → Builds**:
 
 | Setting | Value |
 |---|---|
-| Repository | `gavinfancher/gavinf-docs` |
+| Repository | `gavinfancher/gavinf-dash` |
 | Build command | `npm run build` |
 | Deploy command | `npx wrangler deploy` |
-| Root directory | `/` |
+| Root directory | `/docs` |
 
 The build image has Node preinstalled, which is why a Node-based generator is
 the low-friction choice — a Python one such as MkDocs would need its runtime

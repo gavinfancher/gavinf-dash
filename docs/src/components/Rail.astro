@@ -1,13 +1,12 @@
 ---
 // Cross-site nav rail — Dashboard / homecloud / proxmox / docs.
-// An identical plain-HTML copy lives in the gavinf-dash repo's worker.js
-// (the shell wrapped around the Proxmox UI), and as PortalRail.tsx in the
-// homecloud console. Keep all three in sync: a user crosses between them
-// with no page-level cue.
+// An identical copy lives as PortalRail.tsx in the homecloud console. Keep
+// both in sync: a user crosses between them with no page-level cue.
+// Proxmox is the node's Tailscale address — reachable only on the tailnet.
 const here = 'docs';
 const items = [
   { id: 'homecloud', label: 'homecloud', href: 'https://homecloud.gavinf.com' },
-  { id: 'proxmox',   label: 'proxmox',   href: 'https://proxmox.gavinf.com' },
+  { id: 'proxmox',   label: 'proxmox',   href: 'https://100.106.79.65:8006' },
   { id: 'docs',      label: 'docs',      href: 'https://docs.gavinf.com' },
 ];
 ---

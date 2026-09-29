@@ -15,18 +15,20 @@ Zones, tunnels, and the Workers that front every `gavinf.com` site.
 
 ## Sites
 
-Two Workers serve the `gavinf.com` zone.
+Two Workers from the `gavinf-dash` repo serve the `gavinf.com` zone (`homecloud.gavinf.com` is `gavinf-homecloud`, in its own repo).
 
-`gavinf-prod` is one Worker + one Workers Assets bundle, routed by hostname in
+`gavinf-dash` is one Worker + one Workers Assets bundle, routed by hostname in
 `worker.js`:
 
 | Host | Serves |
 |---|---|
-| `gavinf.com`, `auth.gavinf.com`, `dash.gavinf.com` | portal SPA |
-| `homecloud.gavinf.com` | console SPA |
-| `proxmox.gavinf.com` | rail shell + passthrough to the tunnel origin |
+| `gavinf.com`, `auth.gavinf.com`, `dash.gavinf.com` | portal pages |
 
-`gavinf-docs` is a static assets Worker with no script at all:
+Proxmox is no longer fronted by Cloudflare — the dashboard links straight to
+the node's Tailscale address, so it is reachable only from the tailnet.
+
+`gavinf-docs` is a static assets Worker with no script at all, built from the
+`docs/` directory of the same `gavinf-dash` repo:
 
 | Host | Serves |
 |---|---|

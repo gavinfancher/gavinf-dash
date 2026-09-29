@@ -19,10 +19,6 @@
     {
       "pattern": "dash.gavinf.com",
       "custom_domain": true
-    },
-    {
-      "pattern": "proxmox.gavinf.com/*",
-      "zone_name": "gavinf.com"
     }
   ]
 }

@@ -24,8 +24,8 @@ const SERVICES: Service[] = [
   {
     id: 'proxmox',
     name: 'proxmox',
-    desc: 'Proxmox hypervisor, VMs & cluster management',
-    href: 'https://proxmox.gavinf.com',
+    desc: 'Proxmox VE over Tailscale — tailnet only',
+    href: 'https://100.106.79.65:8006',
     icon: <IconHypervisor />,
     live: true,
   },
