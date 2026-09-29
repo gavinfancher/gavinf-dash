@@ -1,0 +1,256 @@
+/* homecloud/dash theme, mapped onto Starlight's CSS variables.
+   Source of truth: homecloud/frontend/src/App.css and the gavinf-dash portal.
+   Ported from the VitePress theme this site used before — same hex values,
+   different variable namespace (--vp-* -> --sl-*).
+
+   homecloud/dash is dark-only, so the palette is declared once on :root and
+   repeated for [data-theme='light'] rather than offering a light variant. */
+
+:root,
+:root[data-theme='light'],
+:root[data-theme='dark'] {
+	--hc-accent: #3fd79a;
+	--hc-accent-hover: #35be87;
+	--hc-accent-soft: #102420;
+
+	--hc-bg: #0d0d0d;
+	--hc-bg-alt: #121212;
+	--hc-bg-elv: #161616;
+	--hc-bg-soft: #1b1b1b;
+
+	--hc-text-1: #ededed;
+	--hc-text-2: #a1a1a1;
+	--hc-text-3: #6e6e6e;
+	--hc-divider: #2b2b2b;
+
+	/* Starlight accents. `accent-high` is used for link text on the dark
+	   surface, so it is lightened rather than reusing the raw brand blue. */
+	--sl-color-accent-low: var(--hc-accent-soft);
+	--sl-color-accent: var(--hc-accent);
+	--sl-color-accent-high: #a6e8c8;
+
+	/* Starlight's ramp runs gray-1 (lightest) to gray-6 (darkest). */
+	--sl-color-white: var(--hc-text-1);
+	--sl-color-gray-1: var(--hc-text-1);
+	--sl-color-gray-2: var(--hc-text-2);
+	--sl-color-gray-3: var(--hc-text-3);
+	--sl-color-gray-4: var(--hc-divider);
+	--sl-color-gray-5: var(--hc-bg-elv);
+	--sl-color-gray-6: var(--hc-bg-alt);
+	--sl-color-black: var(--hc-bg);
+
+	--sl-color-bg: var(--hc-bg);
+	--sl-color-bg-nav: var(--hc-bg-alt);
+	--sl-color-bg-sidebar: var(--hc-bg);
+	--sl-color-bg-inline-code: var(--hc-bg-elv);
+	--sl-color-text: var(--hc-text-1);
+	--sl-color-text-accent: var(--hc-accent);
+	--sl-color-hairline: var(--hc-divider);
+	--sl-color-hairline-light: var(--hc-divider);
+	--sl-color-hairline-shade: var(--hc-divider);
+
+	--sl-font: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+	--sl-font-mono: ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, monospace;
+
+	--sl-sidebar-width: 232px;
+}
+
+body {
+	background: var(--sl-color-bg);
+}
+
+code,
+pre,
+kbd {
+	font-family: var(--sl-font-mono);
+}
+
+/* Cards on the splash page, styled like the dash service-card grid:
+   soft panel, hairline border, accent border on hover. */
+.card {
+	background: var(--hc-bg-elv);
+	border: 1px solid var(--hc-divider);
+	border-radius: 3px;
+	transition: border-color 0.12s;
+}
+
+.card:hover {
+	border-color: var(--hc-accent);
+}
+
+/* Hero buttons, styled like the dash's .btn-login: soft accent fill, accent
+   border and text, small radius — not Starlight's default full pill.
+
+   Scoped under .actions on purpose: Starlight's own rule is
+   `.sl-link-button:where(.astro-*).primary`, which is also two classes
+   (:where contributes nothing) and sits later in the bundle, so a bare
+   `.sl-link-button.primary` loses the tie. */
+.actions .sl-link-button.primary {
+	color: var(--hc-accent);
+	background: var(--hc-accent-soft);
+	border: 1px solid color-mix(in srgb, var(--hc-accent) 30%, transparent);
+	border-radius: 2px;
+	font-weight: 500;
+}
+
+.actions .sl-link-button.primary:hover {
+	background: color-mix(in srgb, var(--hc-accent) 18%, transparent);
+	border-color: color-mix(in srgb, var(--hc-accent) 55%, transparent);
+	color: var(--hc-accent);
+}
+
+.actions .sl-link-button.minimal {
+	color: var(--hc-text-2);
+	border-radius: 2px;
+	padding-inline: 0.75rem;
+}
+
+.actions .sl-link-button.minimal:hover {
+	color: var(--hc-text-1);
+	background: var(--hc-bg-elv);
+}
+
+/* ---------------------------------------------------------------------------
+   Sidebar, in the register Cloudflare's developer docs use: group labels as
+   small uppercase eyebrows, and a quiet rounded pill for the current page
+   rather than a saturated fill.
+   --------------------------------------------------------------------------- */
+
+.sidebar-content {
+	padding-top: 1.25rem;
+}
+
+/* Section headings: "CLOUDFLARE", not "Cloudflare" */
+.sidebar-content .group-label .large {
+	font-size: 0.6875rem;
+	font-weight: 600;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--hc-text-3);
+}
+
+.sidebar-content summary {
+	padding-block: 0.4rem;
+	margin-top: 0.9rem;
+}
+
+.sidebar-content .top-level > li:first-child summary {
+	margin-top: 0;
+}
+
+/* The caret competes with the eyebrow; Cloudflare's top-level groups don't
+   show one at all. */
+.sidebar-content .top-level > li > details > summary .caret {
+	opacity: 0.35;
+	width: 1rem;
+	height: 1rem;
+}
+
+.sidebar-content a {
+	border-radius: 2px;
+	padding: 0.35rem 0.6rem;
+	font-size: 0.875rem;
+	line-height: 1.45;
+	color: var(--hc-text-2);
+	border-inline-start: 0;
+	transition: background 0.12s, color 0.12s;
+}
+
+.sidebar-content a:hover {
+	background: var(--hc-bg-elv);
+	color: var(--hc-text-1);
+}
+
+/* Current page: grey surface with a green edge, matching homecloud's nav. */
+.sidebar-content a[aria-current='page'],
+.sidebar-content a[aria-current='page']:hover {
+	background: var(--hc-bg-soft);
+	color: var(--hc-text-1);
+	font-weight: 600;
+	box-shadow: inset 2px 0 0 var(--hc-accent);
+	border-inline-start: 0;
+}
+
+/* Starlight draws a hairline down nested lists; Cloudflare leaves it out. */
+.sidebar-content .top-level ul ul,
+.sidebar-content .top-level > li > details > ul {
+	border-inline-start: 0;
+	padding-inline-start: 0;
+	margin-inline-start: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   Splash hero — large title, muted lead, matching the docs landing pattern.
+   --------------------------------------------------------------------------- */
+
+.hero h1 {
+	font-size: clamp(2.5rem, 6vw, 3.75rem);
+	line-height: 1.05;
+	letter-spacing: -0.02em;
+}
+
+.hero .tagline {
+	color: var(--hc-text-2);
+	font-size: 1.0625rem;
+	max-width: 34rem;
+}
+
+/* Starlight pads the hero by up to 10rem block-start and block-end and reserves
+   a 4fr column for a hero image. With no image and no action buttons, that
+   strands the title and one line of tagline in a mostly empty band — so tighten
+   the padding and let the copy span the full width. Unlayered, so it beats the
+   starlight.core layer without needing extra specificity. */
+.hero {
+	grid-template-columns: 100%;
+	padding-block: clamp(1.5rem, calc(0.5rem + 3vmin), 3.5rem);
+}
+
+/* The table of contents' first entry ("Overview") is an anchor to the page
+   <h1>, which carries id="_top". Starlight parks anchor targets at
+   scroll-padding-top (1.5rem + nav height), but at rest the h1 sits slightly
+   lower than that — so clicking it nudged the page down a few pixels instead
+   of returning to the top. The h1 already clears the fixed header at scroll 0,
+   so overshoot the margin and let the browser clamp the jump to true top. */
+h1#_top {
+	scroll-margin-top: 100vh;
+}
+
+.content-panel h1 {
+	letter-spacing: -0.015em;
+}
+
+/* ---------------------------------------------------------------------------
+   Content and table-of-contents widths.
+
+   Starlight sizes the right sidebar to swallow whatever space the content
+   column doesn't use:
+
+     width: max(--sl-sidebar-width,
+                --sl-sidebar-width + (100% - --sl-content-width - --sl-sidebar-width) / 2)
+
+   With the default 45rem content cap that leaves a ~600px "On this page"
+   column on a wide screen. Pin the TOC to the sidebar width and let the
+   content column take the rest, capped for line length.
+   --------------------------------------------------------------------------- */
+
+:root {
+	--sl-content-width: 82rem;
+}
+
+.right-sidebar-container {
+	width: var(--sl-sidebar-width);
+	flex: 0 0 var(--sl-sidebar-width);
+}
+
+.right-sidebar {
+	width: var(--sl-sidebar-width);
+}
+
+/* Breathing room between the sidebar rule and the prose. */
+.content-panel {
+	padding-inline: clamp(1.25rem, 3vw, 3rem);
+}
+
+.site-title {
+	font-weight: 600;
+}

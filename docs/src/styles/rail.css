@@ -1,0 +1,168 @@
+/* gavinf rail — matches .portal-rail in frontend/src/App.css, retokenized
+   onto the vp-c-* variables set in gavinf.css. */
+
+:root {
+	--rail-w: 56px;
+}
+
+body.rail-open {
+	--rail-w: 220px;
+}
+
+.portal-rail {
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	z-index: 1000;
+	width: var(--rail-w);
+	overflow: hidden;
+	background: var(--hc-bg-alt);
+	border-right: 1px solid var(--hc-divider);
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	padding: 0 11px 10px;
+	box-sizing: border-box;
+	transition: width 0.16s ease;
+	font-family: var(--sl-font);
+}
+
+.portal-rail-item {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	flex-shrink: 0;
+	height: 38px;
+	padding: 0 2px;
+	border-radius: 2px;
+	color: var(--hc-text-2);
+	text-decoration: none;
+	white-space: nowrap;
+	font-size: 13.5px;
+	font-weight: 600;
+}
+
+.portal-rail-item:hover,
+.portal-rail-item.active {
+	background: var(--hc-bg-elv);
+	color: var(--hc-text-1);
+}
+
+.portal-rail-icon {
+	width: 30px;
+	height: 30px;
+	flex-shrink: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.portal-rail-mark {
+	background: var(--hc-accent-soft);
+	border-radius: 2px;
+}
+
+.portal-rail-brand {
+	/* Mirror Starlight's .header box model exactly — height: --sl-nav-height
+	   with a 1px bottom border inside it (border-box) — so the rail's rule and
+	   the header's rule are the same line. Negative inline margin cancels the
+	   rail's padding so it spans the full width. */
+	height: var(--sl-nav-height);
+	box-sizing: border-box;
+	border-bottom: 1px solid var(--hc-divider);
+	/* .portal-rail-item sets 7px, which rounds the ends of that border. */
+	border-radius: 0;
+	margin: 0 -11px 8px;
+	padding-inline: 11px;
+	color: var(--hc-text-1);
+	font-size: 15px;
+}
+
+/* Superseded by the brand row's own border, above. */
+.portal-rail-sep {
+	display: none;
+}
+
+.portal-rail-label {
+	opacity: 0;
+	transition: opacity 0.12s ease;
+}
+
+.portal-rail.open .portal-rail-label {
+	opacity: 1;
+}
+
+.portal-rail-spacer {
+	flex: 1;
+}
+
+.portal-rail-toggle {
+	background: none;
+	border: 0;
+	cursor: pointer;
+	font: inherit;
+	width: 100%;
+	text-align: left;
+}
+
+/* Shift VitePress's own chrome right so nothing sits under the rail. */
+
+/* Starlight layout offset. The header and the sidebar are both position:fixed,
+   so padding on an ancestor does not move them — each needs its own inset. */
+/* Add the rail to Starlight's nav padding rather than replacing it —
+   overriding it outright pushes the wordmark flush against the rail border. */
+header.header {
+	padding-inline-start: calc(var(--sl-nav-pad-x) + var(--rail-w));
+	transition: padding-inline-start 0.16s ease;
+}
+
+/* The sidebar has to move with the rail: at 220px an overlaying rail covers
+   it completely. Every offset below shares the rail's 0.16s timing so the
+   whole layout slides as one instead of snapping while the rail animates. */
+.sidebar-pane {
+	inset-inline-start: var(--rail-w);
+	transition: inset-inline-start 0.16s ease;
+}
+
+/* Add the rail to Starlight's own inset — do not replace it.
+   --sl-content-inline-start is the sidebar width (0 below the breakpoint).
+   Splash pages have no sidebar and never define it, and an undefined variable
+   makes the whole calc() invalid — which is why the home page used to sit
+   still while the header slid: it fell back to a padding of 0. Hence the
+   explicit 0px fallback here and everywhere else the variable is read. */
+.main-frame {
+	padding-inline-start: calc(var(--sl-content-inline-start, 0px) + var(--rail-w));
+	transition: padding-inline-start 0.16s ease;
+}
+
+/* Below Starlight's breakpoint the sidebar becomes a drawer and the rail
+   hides, so nothing needs offsetting. */
+@media (max-width: 50rem) {
+	header.header {
+		padding-inline-start: var(--sl-nav-pad-x);
+	}
+	.main-frame {
+		padding-inline-start: var(--sl-content-inline-start, 0px);
+	}
+	.sidebar-pane {
+		inset-inline-start: 0;
+	}
+	.portal-rail {
+		display: none;
+	}
+}
+
+/* Between Starlight's two breakpoints (50rem–72rem) the table of contents
+   becomes a fixed "On this page" bar with `inset-inline: 0`, so its left end
+   runs under the rail and the sidebar. Start it after both. */
+mobile-starlight-toc nav {
+	inset-inline-start: calc(var(--sl-content-inline-start, 0px) + var(--rail-w));
+	transition: inset-inline-start 0.16s ease;
+}
+
+@media (max-width: 50rem) {
+	mobile-starlight-toc nav {
+		inset-inline-start: 0;
+	}
+}
