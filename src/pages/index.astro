@@ -3,8 +3,7 @@
 // no JavaScript at all; Clerk only loads on /auth and /dash.
 //
 // The job of this page is to say what the domain is in about five seconds and
-// then hand the visitor somewhere better. Detail about the infrastructure
-// belongs on docs.gavinf.com, not here.
+// then hand the visitor somewhere better.
 import Base from '../layouts/Base.astro';
 
 const DESTINATIONS = [
@@ -12,11 +11,6 @@ const DESTINATIONS = [
     label: 'gavinfancher.com',
     note: 'Projects and writing',
     href: 'https://gavinfancher.com',
-  },
-  {
-    label: 'docs.gavinf.com',
-    note: 'Notes on the plumbing behind this',
-    href: 'https://docs.gavinf.com',
   },
   {
     label: 'GitHub',
@@ -31,7 +25,7 @@ const DESTINATIONS = [
 ];
 ---
 <Base
-  title="Gavin Fancher — data systems & infrastructure"
+  title="Gavin Fancher — cloud & infrastructure"
   description="gavinf.com is the control plane for a self-hosted mini-cloud: VM provisioning, private mesh networking, and public ingress, run on my own hardware."
 >
   <div class="land-shell">
@@ -46,14 +40,15 @@ const DESTINATIONS = [
     </header>
 
     <main class="land-doc">
-      <p class="land-eyebrow">Data systems · Data infrastructure</p>
+      <p class="land-eyebrow">Cloud · Infrastructure · Platform</p>
       <h1 class="land-title">Gavin Fancher</h1>
-      <p class="land-lead">I build data pipelines, systems, and infrastructure.</p>
+      <p class="land-lead">I build cloud infrastructure, platforms, and the systems that run on them.</p>
 
       <p class="land-body">
         This domain isn't a portfolio — it's the control plane for a homelab I run
-        as a small cloud, on my own hardware. Look at some of the resouces below, as 
-        the control plane is behind an auth layer.
+        as a small cloud on my own hardware: VM provisioning, a private mesh network,
+        and public ingress at the edge. The control plane itself sits behind auth, so
+        the links below are the best place to look around.
       </p>
 
       <nav class="land-dests" aria-label="Elsewhere">
