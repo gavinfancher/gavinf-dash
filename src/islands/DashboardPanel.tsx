@@ -25,7 +25,7 @@ const SERVICES: Service[] = [
     id: 'proxmox',
     name: 'proxmox',
     desc: 'Proxmox VE over Tailscale — tailnet only',
-    href: 'https://100.106.79.65:8006',
+    href: 'https://pve.dns.gavinf.com:8006',
     icon: <IconHypervisor />,
     live: true,
   },

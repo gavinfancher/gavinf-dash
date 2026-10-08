@@ -2,11 +2,11 @@
 // Cross-site nav rail — Dashboard / homecloud / proxmox / docs.
 // An identical copy lives as PortalRail.tsx in the homecloud console. Keep
 // both in sync: a user crosses between them with no page-level cue.
-// Proxmox is the node's Tailscale address — reachable only on the tailnet.
+// Proxmox is pve.dns.gavinf.com, served by homecloud's CoreDNS — tailnet only.
 const here = 'docs';
 const items = [
   { id: 'homecloud', label: 'homecloud', href: 'https://homecloud.gavinf.com' },
-  { id: 'proxmox',   label: 'proxmox',   href: 'https://100.106.79.65:8006' },
+  { id: 'proxmox',   label: 'proxmox',   href: 'https://pve.dns.gavinf.com:8006' },
   { id: 'docs',      label: 'docs',      href: 'https://docs.gavinf.com' },
 ];
 ---

@@ -27,8 +27,8 @@ own `package.json` and `wrangler.json` and deploy independently.
 visit `/auth/` or `/dash/` directly.
 
 Proxmox is not served through Cloudflare. The dashboard card and the docs rail
-link straight to the node's Tailscale address (`https://100.106.79.65:8006`),
-so it only works from a device on the tailnet.
+link to `https://pve.dns.gavinf.com:8006`, a name homecloud's CoreDNS serves to
+the tailnet (split DNS), so it only works from a device on the tailnet.
 
 ## Local development
 
