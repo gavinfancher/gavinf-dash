@@ -19,7 +19,7 @@ const GROUPS: { label: string; services: Service[] }[] = [
     label: 'Infrastructure',
     services: [
       { name: 'homecloud', desc: 'Spin up Ubuntu and Windows VMs', href: 'https://homecloud.gavinf.com', icon: 'cloud' },
-      { name: 'Proxmox', desc: 'The hypervisor', href: 'https://10.0.4.10:8006', icon: 'grid', tailnet: true },
+      { name: 'Proxmox', desc: 'The hypervisor', href: 'https://pve.ad.gavinf.com:8006', icon: 'grid', tailnet: true },
       { name: 'Argo CD', desc: 'GitOps deploys to the k3s cluster', href: 'https://argocd.k8s.ad.gavinf.com', icon: 'sync', tailnet: true },
     ],
   },
