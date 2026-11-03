@@ -1,9 +1,76 @@
 ---
-// dash.gavinf.com — signed-in only, so the whole panel is a client island
-// rather than static markup that would flash before the redirect.
+// dash.gavinf.com: bookmarks to everything I run. Static, no sign-in, no JavaScript. A link
+// opens the real service, and each service does its own sign-in (homecloud, easydocs, ...).
+// Anything marked "tailnet" only opens from a device on my Tailscale network.
 import Base from '../layouts/Base.astro';
-import DashboardPanel from '../islands/DashboardPanel.tsx';
+
+const ICONS = {
+  cloud: '<path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>',
+  grid: '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
+  docs: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6"/><path d="M9 17h6"/>',
+  sync: '<path d="M21 12a9 9 0 0 1-15.5 6.2L3 16"/><path d="M3 21v-5h5"/><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8"/><path d="M21 3v5h-5"/>',
+  bell: '<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',
+  book: '<path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>',
+};
+
+type Service = { name: string; desc: string; href: string; icon: keyof typeof ICONS; tailnet?: boolean };
+
+const GROUPS: { label: string; services: Service[] }[] = [
+  {
+    label: 'Infrastructure',
+    services: [
+      { name: 'homecloud', desc: 'Spin up Ubuntu and Windows VMs', href: 'https://homecloud.gavinf.com', icon: 'cloud' },
+      { name: 'Proxmox', desc: 'The hypervisor', href: 'https://10.0.4.10:8006', icon: 'grid', tailnet: true },
+      { name: 'Argo CD', desc: 'GitOps deploys to the k3s cluster', href: 'https://argocd.k8s.ad.gavinf.com', icon: 'sync', tailnet: true },
+    ],
+  },
+  {
+    label: 'Apps',
+    services: [
+      { name: 'easydocs', desc: 'Markdown docs with a web editor', href: 'https://easydocs.gavinf.com', icon: 'docs' },
+      { name: 'Wishly', desc: 'Email reminders for dates that matter', href: 'https://app.wishly.dev', icon: 'bell' },
+      { name: 'docs', desc: 'Notes on Cloudflare, Infisical, AWS', href: 'https://docs.gavinf.com', icon: 'book' },
+    ],
+  },
+];
 ---
-<Base title="Dashboard">
-  <DashboardPanel client:only="react" />
+<Base title="Dashboard · gavinf" description="Bookmarks to the services I run.">
+  <div class="dash-shell">
+    <header class="dash-header">
+      <a class="dash-brand" href="https://gavinf.com">
+        <div class="land-logo-mark">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M17.5 19a4.5 4.5 0 0 0 .5-8.97A6 6 0 0 0 6.34 9.5 4 4 0 0 0 7 19z"
+              stroke="#3fd79a" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span>Dashboard</span>
+      </a>
+    </header>
+
+    <main class="dash-content">
+      {GROUPS.map((g) => (
+        <section class="dash-group">
+          <p class="dash-section-label">{g.label}</p>
+          <div class="service-grid">
+            {g.services.map((s) => (
+              <a class="service-card" href={s.href}>
+                <div class="service-card-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
+                    set:html={ICONS[s.icon]} />
+                </div>
+                <p class="service-card-name">{s.name}</p>
+                <p class="service-card-desc">{s.desc}</p>
+                <p class="service-card-host">
+                  {new URL(s.href).host}
+                  {s.tailnet && <span class="tag">tailnet</span>}
+                </p>
+              </a>
+            ))}
+          </div>
+        </section>
+      ))}
+    </main>
+  </div>
 </Base>

@@ -1,6 +1,6 @@
 ---
 // gavinf.com — fully static. This page has no interactive state, so it ships
-// no JavaScript at all; Clerk only loads on /auth and /dash.
+// no JavaScript at all.
 //
 // The job of this page is to say what the domain is in about five seconds and
 // then hand the visitor somewhere better.
@@ -36,7 +36,7 @@ const DESTINATIONS = [
             stroke="#3fd79a" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
-      <a class="btn-login" href="https://auth.gavinf.com">Login</a>
+      <a class="btn-login" href="https://dash.gavinf.com">Dashboard</a>
     </header>
 
     <main class="land-doc">
@@ -45,10 +45,10 @@ const DESTINATIONS = [
       <p class="land-lead">I build cloud infrastructure, platforms, and the systems that run on them.</p>
 
       <p class="land-body">
-        This domain isn't a portfolio — it's the control plane for a homelab I run
-        as a small cloud on my own hardware: VM provisioning, a private mesh network,
-        and public ingress at the edge. The control plane itself sits behind auth, so
-        the links below are the best place to look around.
+        This domain isn't a portfolio — it's the front door to a homelab I run as a
+        small cloud on my own hardware: a k3s cluster deployed with GitOps, VMs on
+        Proxmox, and public ingress through Cloudflare Tunnel. The services sit behind
+        sign-in, so the links below are the best place to look around.
       </p>
 
       <nav class="land-dests" aria-label="Elsewhere">

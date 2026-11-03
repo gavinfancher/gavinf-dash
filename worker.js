@@ -1,13 +1,8 @@
-// gavinf-dash: one Worker for the portal pages on gavinf.com, one per
-// hostname. homecloud.gavinf.com is a separate Worker in its own repo;
-// docs.gavinf.com is the separate gavinf-docs Worker built from ./docs.
-// Proxmox is no longer proxied — the dashboard links to it over Tailscale.
+// gavinf-dash: one Worker for gavinf.com and dash.gavinf.com, one static page each.
+// docs.gavinf.com is the separate gavinf-docs Worker built from ./docs, and
+// homecloud.gavinf.com is in the homecloud repo.
 
-// Each portal host serves a different prerendered Astro page. The SPA used to
-// switch views client-side off window.location.hostname; now the split happens
-// here, so gavinf.com can be a static page that ships no JavaScript.
 const HOST_PAGE = {
-  "auth.gavinf.com": "/auth/",
   "dash.gavinf.com": "/dash/",
 };
 
@@ -15,8 +10,14 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
-    // Portal. Only the bare host path is rewritten to that host's page —
-    // /_astro/* and other asset requests resolve by their own path.
+    // The old Clerk sign-in portal. Nothing signs in here any more; each service
+    // that needs it (homecloud, easydocs, ...) has its own sign-in.
+    if (url.hostname === "auth.gavinf.com") {
+      return Response.redirect("https://dash.gavinf.com/", 301);
+    }
+
+    // Only the bare host path is rewritten to that host's page; /_astro/* and
+    // other assets resolve by their own path.
     const page = HOST_PAGE[url.hostname] ?? "/";
     const assetUrl = new URL(url);
     if (url.pathname === "/" || url.pathname === "") {
